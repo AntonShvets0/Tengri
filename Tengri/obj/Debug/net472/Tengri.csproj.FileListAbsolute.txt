@@ -1,0 +1,13 @@
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\bin\Debug\net472\Tengri.exe.config
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\bin\Debug\net472\Tengri.exe
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\bin\Debug\net472\Tengri.pdb
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\bin\Debug\net472\Newtonsoft.Json.dll
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\bin\Debug\net472\TengriLang.dll
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\bin\Debug\net472\TengriLang.pdb
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\obj\Debug\net472\Tengri.csprojAssemblyReference.cache
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\obj\Debug\net472\Tengri.AssemblyInfoInputs.cache
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\obj\Debug\net472\Tengri.AssemblyInfo.cs
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\obj\Debug\net472\Tengri.csproj.CoreCompileInputs.cache
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\obj\Debug\net472\Tengri.csproj.CopyComplete
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\obj\Debug\net472\Tengri.exe
+C:\Users\lordoverlord0\RiderProjects\TengriLang\Tengri\obj\Debug\net472\Tengri.pdb

@@ -1,0 +1,32 @@
+﻿{
+  "version": "1.0.0",
+  "restore": {
+    "projectUniqueName": "C:\\Users\\lordoverlord0\\RiderProjects\\TengriLang\\TengriLang\\TengriLang.csproj",
+    "projectName": "TengriLang",
+    "projectPath": "C:\\Users\\lordoverlord0\\RiderProjects\\TengriLang\\TengriLang\\TengriLang.csproj",
+    "outputPath": "C:\\Users\\lordoverlord0\\RiderProjects\\TengriLang\\TengriLang\\obj\\",
+    "projectStyle": "PackageReference",
+    "originalTargetFrameworks": [
+      "net472"
+    ],
+    "sources": {
+      "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+      "https://api.nuget.org/v3/index.json": {}
+    },
+    "frameworks": {
+      "net472": {
+        "projectReferences": {}
+      }
+    },
+    "warningProperties": {
+      "warnAsError": [
+        "NU1605"
+      ]
+    }
+  },
+  "frameworks": {
+    "net472": {
+      "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.300\\RuntimeIdentifierGraph.json"
+    }
+  }
+}

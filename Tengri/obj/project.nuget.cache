@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "GZbRpxXmiUd3iZmmp8P8b/hE/KAwPpdWigQevhYi47uUlUfekQB6KFXuV+QjhfJgAbUWO09llnVaWIut9+9mQQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\lordoverlord0\\RiderProjects\\TengriLang\\Tengri\\Tengri.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\lordoverlord0\\.nuget\\packages\\newtonsoft.json\\13.0.1-beta1\\newtonsoft.json.13.0.1-beta1.nupkg.sha512"
+  ],
+  "logs": []
+}

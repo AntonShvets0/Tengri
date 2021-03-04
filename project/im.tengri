@@ -1,0 +1,5 @@
+test = {
+	init(name): {
+		console.print(name)
+	}
+}
