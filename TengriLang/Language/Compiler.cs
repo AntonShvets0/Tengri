@@ -43,7 +43,7 @@ namespace TengriLang.Language
             parameters.WarningLevel = 0;
             parameters.CompilerOptions = @"/optimize /win32icon:" + (Options.Icon != null ? Options.ProjectFolder + "/" + Options.Icon : AppDomain.CurrentDomain.BaseDirectory + "/assets/icon.ico");
             
-            
+
             if (Options.IsExecutable)
             {
                 var ns = "FILE_TENGRI_" + Options.PathToClass.Replace('\\', '_').Replace('/', '_').Replace(".tengri", "");
@@ -64,16 +64,17 @@ namespace TengriLang.Language
             File.Copy("TengriLang.dll", Options.CompiledOutputPath + "/TengriLang.dll");
             parameters.ReferencedAssemblies.Add("TengriLang.dll");
             
-            foreach (var lib in _dll)
+            foreach (var lib in dll)
             {
                 if (!_dll.Contains(lib)) 
                 {
-                    if (!File.Exists(Options.CompiledOutputPath + "/" + lib + ".dll"))
+                    if (File.Exists(Options.CompiledOutputPath + "/" + lib))
                     {
-                        File.Copy(Options.ProjectFolder + "/lib/" + lib + ".dll", Options.CompiledOutputPath + "/" + lib + ".dll");
+                        File.Delete(Options.CompiledOutputPath + "/" + lib);
                     }
-                    
-                    parameters.ReferencedAssemblies.Add(lib + ".dll");
+
+                    File.Copy(Options.ProjectFolder + "/lib/" + lib, Options.CompiledOutputPath + "/" + lib);
+                    parameters.ReferencedAssemblies.Add(Assembly.LoadFile(Options.ProjectFolder + "/lib/" + lib).Location);
                 }
                 else
                 {

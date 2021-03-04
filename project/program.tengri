@@ -1,8 +1,9 @@
+import "test.tengri"
+
 program = {
 	static {
-		main() => {
-		
+		main(): {
+			var test = testClass.init("test")
 		}
 	}
 }
-/**/

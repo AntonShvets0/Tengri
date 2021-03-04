@@ -102,7 +102,7 @@ namespace Tengri
                 Console.WriteLine("Error: property \"name\" not found in app.config");
                 return null;
             }
-
+            
             return config;
         }
         
