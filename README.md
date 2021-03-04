@@ -4,7 +4,7 @@
 - Newtonsoft.Json
 
 # Language
-
+![](https://github.com/AntonShvets0/Tengri/blob/master/assets/logo.png)
 
 
 ### How to use
@@ -115,7 +115,7 @@ If you need to move away from the language codestyle and change the visibility o
 </pre>
 
 
-####Import
+#### Import
 To access the classes of another file, you should use the import:
 <pre>
 	import("example.tengri")
@@ -128,7 +128,7 @@ To access the classes of another file, you should use the import:
 	}
 </pre>
 
-####Conditions
+#### Conditions
 The terms are similar to any other terms in C-like languages. Brackets can be omitted. Else if replaced to "Elif"
 <pre>
 	if cond {
@@ -140,8 +140,8 @@ The terms are similar to any other terms in C-like languages. Brackets can be om
 	}
 </pre>
 
-####Cycles
-#####Foreach
+#### Cycles
+##### Foreach
 <pre>
 	array = [name: "Test", age: 18]
 	array {
@@ -153,21 +153,21 @@ The terms are similar to any other terms in C-like languages. Brackets can be om
 	}
 </pre>
 
-#####For
+##### For
 <pre>
 	for i in 0...array.length {
 		
 	}
 </pre>
 
-#####While
+##### While
 <pre>
 	while cond {
 	
 	}
 </pre>
 
-#####Do while
+##### Do while
 <pre>
 	do cond {
 	
