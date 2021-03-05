@@ -5,7 +5,7 @@
 
 # Language
 ![](https://github.com/AntonShvets0/Tengri/blob/master/assets/logo.png)
-Tengri 2.0
+# Tengri 2.0
 
 
 ### How to use
@@ -38,30 +38,30 @@ program = {
 Arrays are like PHP
 
 <pre>
-	var array = [1204, 1368, 1380, 1480]
-	var object = [ rulers: [
-		[
-			name: "Temuchin",
-			father:  "Yesügei"
-		],
-		[
-			name: "Ögödei",
-			father: "Temuchin"
-		]
-	] ]
-	var mixed = [1204, tumens: [
-		[
-			id: 1,
-			peoples: 9986,
-			horses: 29958
-		],
-		[
-			id: 2,
-			peoples: 11000,
-			horses: 40000
-		]
-	]]
-	</pre>
+var array = [1204, 1368, 1380, 1480]
+var object = [ rulers: [
+    [
+        name: "Temuchin",
+        father:  "Yesügei"
+    ],
+    [
+        name: "Ögödei",
+        father: "Temuchin"
+    ]
+] ]
+var mixed = [1204, tumens: [
+    [
+        id: 1,
+        peoples: 9986,
+        horses: 29958
+    ],
+    [
+        id: 2,
+        peoples: 11000,
+        horses: 40000
+    ]
+]]
+</pre>
 	
 #### Classes, fields, methods
 Class declaration is like variable assignment. Var is not necessary..
@@ -119,14 +119,14 @@ If you need to move away from the language codestyle and change the visibility o
 
 <pre>
 foo = {
-_privateField: "This is private field",
-publicField: "This is public field",
-protectedField: "This is protected field",
-
-@private
-privateMethod: () {
-    return "This is private method"
-}
+    _privateField: "This is private field",
+    publicField: "This is public field",
+    protectedField: "This is protected field",
+    
+    @private
+    privateMethod: () {
+        return "This is private method"
+    }
 }
 </pre>
 
@@ -261,7 +261,7 @@ try {
 ### Threads
 <pre>
 var thread = thread.init(() {
-console.print("thread func"
+console.print("thread func")
 })
 
 thread.start()
