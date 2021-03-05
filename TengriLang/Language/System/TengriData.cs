@@ -4,6 +4,6 @@ namespace TengriLang.Language.System
 {
     public class TengriData
     {
-        public delegate object TengriMethod(object[] TENGRI_SYS_ARGS);
+        public delegate dynamic TengriMethod(dynamic[] TENGRI_SYS_ARGS);
     }
 }

@@ -35,10 +35,17 @@ namespace TengriLang.Language.Model.Lexeme
 
                     return null;
                 case "{":
-                    return new BlockElement(this, builder.ParseInBrackets('{', '}')[0]);;
+                    var blockClass = new BlockElement(this, builder.ParseInBrackets('{', '}')[0]);
+                    return blockClass.ParseElement(builder, reader);
                 case "[":
                     return ParseArray(builder, reader);
                 case ",": return this;
+                case "(":
+                    var block = new BlockElement(this, builder.ParseInBrackets('(', ')')[0])
+                    {
+                        IsFuncBrackets = true
+                    };
+                    return block.ParseElement(builder, reader);
                 default: return null;
             }
         }

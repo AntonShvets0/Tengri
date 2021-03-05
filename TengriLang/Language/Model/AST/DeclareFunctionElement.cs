@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TengriLang.Language.Model.Lexeme;
+using TengriLang.Language.System;
 using TengriLang.Reader;
 using NotImplementedException = System.NotImplementedException;
 
@@ -7,20 +9,16 @@ namespace TengriLang.Language.Model.AST
 {
     public class DeclareFunctionElement : TreeElement, IElement, ILexeme
     {
-        public FuncType FuncType;
-        public string Value;
         public List<List<TreeElement>> Args;
         public List<TreeElement> Body;
-
-        public string ClassName;
-
-        public DeclareFunctionElement(CallFunctionElement functionElement, List<TreeElement> body, FuncType type)
-            : base(functionElement.File, functionElement.Position, functionElement.Line, functionElement.CharIndex)
+        public string Name = null;
+        
+        public DeclareFunctionElement(TreeElement parent, List<List<TreeElement>> args, List<TreeElement> body)
+            : base(parent.File, parent.Position, parent.Line, parent.CharIndex)
         {
             Body = body;
-            FuncType = type;
-            Value = functionElement.Value.Value;
-            Args = functionElement.Args;
+            Args = args;
+            _randomArgs = new Random(new Random().Next(1, 50000 + Body.Count + Args.Count)).Next(0, 100000);
         }
 
         public TreeElement ParseElement(TreeBuilder builder, TreeReader reader)
@@ -30,27 +28,7 @@ namespace TengriLang.Language.Model.AST
 
         public string ParseCode(Translator translator, TreeReader reader)
         {
-            if (translator.IsStaticBlock && Value == "init")
-            {
-                Exception("Creating a constructor in static block!");
-            }
-            
-            string code = "";
-
-            if (Value == "main" && translator.IsStaticBlock)
-            {
-                code += $"static void Main(string[] args) {{TENGRI_{Value}(args);}}";
-            }
-            
-            if (Value == "init")
-            {
-                code += $"{translator.TypeToString(FuncType)} TENGRI_{ClassName}(dynamic[] TENGRI_SYS_ARGS)" + "{";
-            }
-            else
-            {
-                code += (translator.IsStaticBlock ? "static " : "") +
-                       $"{translator.TypeToString(FuncType)} dynamic TENGRI_{Value}(dynamic[] TENGRI_SYS_ARGS) " + "{";
-            }
+            string code = Name == null ? $"(TengriData.TengriMethod)({ArgsName} => {{" : $"class SYS_TENGRI_GLOBAL_{Name} {{ public static dynamic TENGRI_{Name}(dynamic[] {ArgsName}) {{";
 
             var i = 0;
                 
@@ -63,31 +41,24 @@ namespace TengriLang.Language.Model.AST
                 {
                     var val = translator.Emulate(assign.Right, false);
 
-                    code += $"dynamic TENGRI_{assign.Left.Value};if (TENGRI_SYS_ARGS.Length - 1 < {i})" + "{TENGRI_" + assign.Left.Value + " = " + val + ";}else{TENGRI_" + assign.Left.Value + " = TENGRI_SYS_ARGS[" + (i) + "];}";
+                    code += $"dynamic TENGRI_{assign.Left.Value};if ({ArgsName}.Length - 1 < {i})" + "{TENGRI_" + assign.Left.Value + " = " + val + ";}else{TENGRI_" + assign.Left.Value + $" = {ArgsName}[" + (i) + "];}";
                 }
                 else
                 {
                     var variable = arg[0] as VariableLexeme;
-                    code += $"dynamic TENGRI_{variable.Value} = TENGRI_SYS_ARGS[{i}];";
+                    code += $"dynamic TENGRI_{variable.Value} = {ArgsName}[{i}];";
                 }
 
                 i++;
             }  
 
             code += translator.Emulate(Body);
+            code += "return null;";
 
-            if (Value == "main" && translator.IsStaticBlock)
-            {
-                // Это чтобы консоль не закрывалась
-                code += "TENGRI_console.TENGRI_input(null);";
-            }
-
-            if (Value != "init")
-            {
-                code += "return null;";
-            }
-            
-            return code + "}";
+            return Name == null ? (code + "})") : code + "}}";
         }
+
+        private int _randomArgs;
+        private string ArgsName => $"SYS_TENGRI_{_randomArgs}_ARGS";
     }
 }

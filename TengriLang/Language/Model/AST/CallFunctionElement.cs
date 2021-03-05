@@ -19,26 +19,7 @@ namespace TengriLang.Language.Model.AST
 
         public TreeElement ParseElement(TreeBuilder builder, TreeReader reader)
         {
-            if (reader.Read(1) is SpecialLexeme specialLexeme)
-            {
-                if (specialLexeme.Value == ":")
-                {
-                    reader.Next(2);
-                    FuncType type = builder.GetType(Value.Value, builder.ParseAttributes());
-
-                    var body = builder.ParseToNewLine().FirstOrDefault();
-                    if (body != null && body is BlockElement blockElement)
-                    {
-                        var declareField = new DeclareFunctionElement(this, blockElement.Block, type);
-                        var response = declareField.ParseElement(builder, reader);
-                        return response ?? declareField;
-                    }
-
-                    Exception("Wrong declaring function!");
-                }
-            }
-
-            return null;
+            return this;
         }
 
         public string ParseCode(Translator translator, TreeReader reader)
@@ -51,12 +32,20 @@ namespace TengriLang.Language.Model.AST
             }
 
             if (
-                Value.Args.Count == 1 
-                && Value.Args[0].IsDotUsed 
+                Value.Args.Count == 1
+                && Value.Args[0].IsDotUsed
                 && (Value.Args[0].Body[0] is VariableLexeme variableLexeme && variableLexeme.Value == "init")
-                )
+            )
             {
-                return $"new TENGRI_{Value.Value}(new dynamic[] {{{string.Join(",", data)}}})" + (translator.InBlock ? ";" : "");
+                return $"new TENGRI_{Value.Value}(new dynamic[] {{{string.Join(",", data)}}})" +
+                       (translator.InBlock ? ";" : "");
+            }
+
+            if (Value.Value == "throw" && Args.Count == 1)
+            {
+                var variable = translator.Emulate(Args[0], false);
+
+                return $"throw {variable};";
             }
             
             var main = Value.BuildVar(translator);

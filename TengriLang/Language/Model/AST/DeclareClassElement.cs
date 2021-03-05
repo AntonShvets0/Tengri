@@ -27,7 +27,7 @@ namespace TengriLang.Language.Model.AST
 
         public string ParseCode(Translator translator, TreeReader reader)
         {
-            return "public class TENGRI_" + ClassName + " {" + translator.Emulate(Body) + "}";
+            return "public class TENGRI_" + ClassName + " {" + translator.Emulate(Body, true, false, ClassName) + "}";
         }
     }
 }

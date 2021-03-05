@@ -17,11 +17,72 @@ namespace TengriLang.Language.Model.Lexeme
 
         public TreeElement ParseElement(TreeBuilder builder, TreeReader reader)
         {
-            if (Value == "if")
+            switch (Value)
             {
-                return ParseIf(builder, reader);
+                case "for":
+                case "while":
+                case "do":
+                    return ParseLoop(builder, reader);
+                case "if":
+                    return ParseIf(builder, reader);
+                case "return":
+                    return new ReturnElement(this, builder.ParseToNewLine());
+                case "try":
+                    reader.Next();
+                    var tryBlock = builder.ParseInBrackets('{', '}')[0];
+                    reader.Next();
+
+                    List<TreeElement> catchBlock = new List<TreeElement>();
+                    List<TreeElement> finallyBlock = new List<TreeElement>();
+
+                    VariableLexeme variableLexeme = null;
+                    
+                    if (reader.Read() is KeywordLexeme keywordLexeme && keywordLexeme.Value == "catch")
+                    {
+                        reader.Next();
+
+                        if (reader.Read() is SpecialLexeme specialLexeme && specialLexeme.Value == ":"
+                            && reader.Read(1) is VariableLexeme variable)
+                        {
+                            if (variable.Args.Count > 0) Exception("Wrong name var in catch block");
+                            variableLexeme = variable;
+                        }
+
+                        reader.Next(2);
+                        catchBlock = builder.ParseInBrackets('{', '}')[0];
+                        reader.Next();
+                    }
+
+                    if (reader.Read() is KeywordLexeme finallyKeyword && finallyKeyword.Value == "finally")
+                    {
+                        reader.Next();
+                        finallyBlock = builder.ParseInBrackets('{', '}')[0];
+                        reader.Next();
+                    }
+                    
+                    return new TryElement(this, variableLexeme, tryBlock, catchBlock, finallyBlock);
+                case "import":
+                {
+                    var block = builder.ParseToNewLine();
+                    if (block.Count != 1) Exception("Wrong import!");
+                    if (block[0] is StringLexeme lexeme)
+                        return new ImportElement(this, lexeme.Value);
+
+                    Exception("Wrong import!");
+                    break;
+                }
+                case "export":
+                    return new ExportElement(this, builder.ParseToNewLine());
+                case "fun" when reader.Read() is VariableLexeme name:
+                    return ParseFun(name, builder, reader);
             }
-            else if (Value == "while" || Value == "do")
+
+            return this;
+        }
+
+        private TreeElement ParseLoop(TreeBuilder builder, TreeReader reader)
+        { 
+            if (Value == "while" || Value == "do")
             {
                 var cond = ParseToBracket(reader);
                 reader.Next();
@@ -70,22 +131,23 @@ namespace TengriLang.Language.Model.Lexeme
                 
                 return new ForElement(variable.Value, startValue, endValue, this, block);
             }
-            else if (Value == "return")
+
+            return null;
+        }
+
+        private TreeElement ParseFun(VariableLexeme name, TreeBuilder builder, TreeReader reader)
+        {
+            reader.Next(2);
+            var args = builder.ParseInBrackets('(', ')', ',');
+            reader.Next(2);
+
+            var body = builder.ParseInBrackets('{', '}')[0];
+            reader.Next();
+                
+            return new DeclareFunctionElement(this, args, body)
             {
-                var block = builder.ParseToNewLine();
-                return new ReturnElement(this, block);
-            }
-            else if (Value == "import")
-            {
-                var block = builder.ParseToNewLine();
-                if (block.Count != 1) Exception("Wrong import!");
-                if (block[0] is StringLexeme lexeme)
-                {
-                    return new ImportElement(this, lexeme.Value);
-                } else Exception("Wrong import!");
-            }
-            
-            return this;
+                Name = name.Value
+            };
         }
         
         private TreeElement ParseIf(TreeBuilder builder, TreeReader reader)
@@ -154,7 +216,7 @@ namespace TengriLang.Language.Model.Lexeme
                 case "break": return $"{Value};";
                 case "this": return Value;
                 case "static":
-                    if (reader.Read() is BlockElement block)
+                    if (reader.Read() is BlockElement block && !block.IsFuncBrackets)
                     {
                         reader.Next();
                         var data = translator.Emulate(block.Block, true, true);

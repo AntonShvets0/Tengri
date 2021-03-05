@@ -16,7 +16,7 @@ namespace TengriLang.Language
 
         private string _operatorChars = "+-*/%=|&<>^";
         private string _specialChars = "(){}[],.:@";
-        private string _keywords = "if else elif for while do in static var dynamic return import this break continue";
+        private string _keywords = "if else elif for while do in static var dynamic return import this break continue export fun try catch finally";
 
         public Lexer(string file, string content)
         {

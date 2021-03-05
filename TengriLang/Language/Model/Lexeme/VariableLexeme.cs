@@ -17,6 +17,11 @@ namespace TengriLang.Language.Model.Lexeme
             Value = value;
         }
 
+        public VariableLexeme(string value, string file, int position, int line, int charIndex) : base(file, position, line, charIndex)
+        {
+            Value = value;
+        }
+
         public string ParseCode(Translator translator, TreeReader reader) => BuildVar(translator);
         public TreeElement ParseElement(TreeBuilder builder, TreeReader reader)
         {
@@ -70,6 +75,7 @@ namespace TengriLang.Language.Model.Lexeme
                 {
                     reader.Next();
                     var args = builder.ParseInBrackets('(', ')', ',');
+                    reader.Next();
                     
                     var callFunction = new CallFunctionElement(this, args);
                     var response = callFunction.ParseElement(builder, reader);
@@ -99,7 +105,13 @@ namespace TengriLang.Language.Model.Lexeme
 
         public string BuildVar(Translator translator)
         {
-            var code = $"TENGRI_{Value}";
+            string code;
+
+            if (Value == "global" && Args.Count != 0 && Args[0].IsDotUsed)
+            {
+                code = "SYS_TENGRI_GLOBAL_" + (Args[0].Body[0] as VariableLexeme).Value;
+            }
+            else code = $"TENGRI_{Value}";
 
             foreach (var lexemeArg in Args)
             {

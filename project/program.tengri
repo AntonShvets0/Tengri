@@ -1,9 +1,11 @@
-import "test.tengri"
-
 program = {
 	static {
-		main(): {
-			var test = testClass.init("test")
+		main: () {
+			try {
+				throw(exception.init("Sayonara, bruh"))
+			} catch:exception {
+				console.print(exception.message)
+			}
 		}
 	}
 }

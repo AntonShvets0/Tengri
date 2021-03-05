@@ -21,15 +21,15 @@ namespace TengriLang.Language.Model.AST
 
         public TreeElement ParseElement(TreeBuilder builder, TreeReader reader)
         {
-            if (Right.Count == 1 && Right[0] is BlockElement block)
+            if (Right.Count == 1 && Right[0] is BlockElement block && !block.IsFuncBrackets)
             {
-                var data = block.Block.Where(e => e is DeclareFunctionElement);
+                var data = block.Block.Where(e => e is DeclareFieldElement);
                 foreach (var obj in data)
                 {
-                    var declareFunction = obj as DeclareFunctionElement;
-                    declareFunction.ClassName = Left.Value;
+                    var declareField = obj as DeclareFieldElement;
+                    declareField.ClassName = Left.Value;
                 }
-            
+
                 var declareClass = new DeclareClassElement(Left, block.Block, FuncType.Public);
                 return declareClass.ParseElement(builder, reader) ?? declareClass;
             }
@@ -37,7 +37,14 @@ namespace TengriLang.Language.Model.AST
             return null;
         }
 
-        public string ParseCode(Translator translator, TreeReader reader) 
-            => $"{Left.BuildVar(translator)} {Operator} {translator.Emulate(Right, false)}" + (translator.InBlock ? ";" : "");
+        public string ParseCode(Translator translator, TreeReader reader)
+        {
+            var variable = Left.BuildVar(translator);
+            if (translator.ClassName != null)
+                return $"{variable} {Operator} {translator.Emulate(Right, false)}" +
+                       (translator.InBlock ? ";" : "");
+            else if (translator.ClassName == null && Operator == "=") return $"class SYS_TENGRI_GLOBAL_{Left.Value} {{ public static dynamic {variable} = {translator.Emulate(Right, false)};}}";
+            return null;
+        }
     }
 }

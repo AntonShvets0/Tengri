@@ -5,5 +5,6 @@
 using TengriLang.Language.System;
 using TengriLang.Language.System.Library;
 using System.Collections.Generic;
+using System;
 
-namespace FILE_TENGRI_im {class TENGRI_test {public TENGRI_test(dynamic[] TENGRI_SYS_ARGS){dynamic TENGRI_name = TENGRI_SYS_ARGS[0];TENGRI_console.TENGRI_print(new dynamic[] {TENGRI_name});}}}
+namespace FILE_TENGRI_im {}

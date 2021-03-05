@@ -21,7 +21,7 @@ namespace Tengri
         private static Dictionary<string, string> _hashes = new Dictionary<string, string>();
         private static CompileOptions _compileOptions;
         
-        public const string VERSION = "1.0";
+        public const string VERSION = "2.0";
 
         static void Main(string[] args)
         {
@@ -59,8 +59,6 @@ namespace Tengri
                 _timeWatch.PrintStatistics();
                 Console.WriteLine("Count lines: " + _countLines);
             }
-
-            Console.ReadLine();
         }
 
         private static JObject CheckDataAndGetOptions(string[] args)

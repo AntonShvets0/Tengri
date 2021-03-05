@@ -13,6 +13,7 @@ namespace TengriLang.Language
         private bool _inClass;
         public bool InBlock = true;
         public bool IsStaticBlock = false;
+        public string ClassName;
 
         private string _code = "";
 
@@ -20,7 +21,8 @@ namespace TengriLang.Language
         {
             "TengriLang.Language.System",
             "TengriLang.Language.System.Library",
-            "System.Collections.Generic"
+            "System.Collections.Generic",
+            "System"
         };
 
         public Translator(string file, List<TreeElement> ast)
@@ -80,10 +82,11 @@ namespace TengriLang.Language
 
         public string TypeToString(FuncType type) => type.ToString().ToLower();
 
-        public string Emulate(List<TreeElement> treeElements, bool inBlock = true, bool isStaticBlock = false)
+        public string Emulate(List<TreeElement> treeElements, bool inBlock = true, bool isStaticBlock = false, string className = null)
         {
             var translator = new Translator(_file, treeElements);
             translator._inClass = true;
+            translator.ClassName = className ?? ClassName;
             translator.InBlock = inBlock;
             translator.IsStaticBlock = isStaticBlock;
 
